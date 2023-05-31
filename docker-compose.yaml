@@ -1,0 +1,25 @@
+version: "3.7"
+
+networks:
+    api-network:
+        driver: bridge
+services:
+
+  test-fastapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: nima/test-fastapi
+    container_name: test-fastapi
+    networks:
+      - api-network
+    ports:
+      - "5555:5555"
+    working_dir: /opt/working
+    volumes:
+      - .:/opt/working
+    entrypoint: python api.py
+    environment:
+      - API_PORT=5555
+      - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONIOENCODING=utf8
